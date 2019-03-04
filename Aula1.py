@@ -49,8 +49,28 @@ def greedy(items, maxCost, keyFunction):
 
 	return (result, totalValue)
 
-def testGreedy(items, constraint, keyFunction):
-	taken , val = greedy(items, constraint, keyFunction)
+def greedyRecursive(items, maxCost, totalCost, totalValue, result=[]):
+	if len(items) <= 0:
+		return (result, totalValue)
+
+	if (totalCost+items[0].getCost()) <= maxCost:
+		result.append(items[0])
+		totalCost += items[0].getCost()
+		totalValue += items[0].getValue()
+		return greedyRecursive(items[1:], maxCost, totalCost, totalValue, result)
+
+	return (result, totalValue)
+
+def testGreedy(items, maxCost, keyFunction):
+	taken , val = greedy(items, maxCost, keyFunction)
+	print('Total value of items taken = ', val)
+	for item in taken:
+		print(' ', item)
+
+def testGreedyRecursive(items, maxCost):
+	result = []
+	itemsCopy = sorted(items, key=lambda x: x.calories, reverse=True)
+	taken , val = greedyRecursive(itemsCopy, maxCost, 0.0, 0.0, result)
 	print('Total value of items taken = ', val)
 	for item in taken:
 		print(' ', item)
@@ -61,4 +81,7 @@ p = [20, 20,30,30]
 v = [20,30,20,40]
 
 menu = buildMenu(n, p, v)
-testGreedy(menu, 50, lambda x: x.calories)
+
+# print(greedyRecursive(itemsCopy, 50, 0.0, 0.0, result))
+testGreedyRecursive(menu, 150)
+testGreedy(menu, 150, lambda x: x.calories)
