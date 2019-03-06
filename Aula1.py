@@ -50,16 +50,15 @@ def greedy(items, maxCost, keyFunction):
 	return (result, totalValue)
 
 def greedyRecursive(items, maxCost, totalCost, totalValue, result=[]):
-	if len(items) <= 0:
+	if items == []:
 		return (result, totalValue)
-
-	if (totalCost+items[0].getCost()) <= maxCost:
+	elif (totalCost+items[0].getCost()) <= maxCost:
 		result.append(items[0])
 		totalCost += items[0].getCost()
 		totalValue += items[0].getValue()
 		return greedyRecursive(items[1:], maxCost, totalCost, totalValue, result)
-
-	return (result, totalValue)
+	else:
+		return (result, totalValue)
 
 def testGreedy(items, maxCost, keyFunction):
 	taken , val = greedy(items, maxCost, keyFunction)
